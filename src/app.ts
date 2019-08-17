@@ -4,7 +4,7 @@ dotenv.config();
 import { Config } from './config/dbcon';
 import { SCC } from './controller/SteamCliController';
 
-// Connect with the server
+// Connect with the db
 Config.connection.connect().then((result: any) => {
   Config.connection.synchronize(true);
 })
