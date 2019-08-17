@@ -1,0 +1,31 @@
+{
+  "name": "NodeTsDockerDevEnv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "dev": "concurrently \"tsc -w\" \"nodemon dist/app.js\"",
+    "prod": "node dist/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.11.1",
+    "@types/node": "^10.0.5",
+    "concurrently": "^4.1.1",
+    "dotenv": "^8.0.0",
+    "insults": "^0.1.3",
+    "pg": "^7.12.1",
+    "steam-totp": "^2.1.0",
+    "steam-user": "^4.12.2",
+    "tsc": "^1.20150623.0",
+    "tslint": "^5.10.0",
+    "typeorm": "^0.2.18",
+    "typescript": "^2.8.3"
+  },
+  "devDependencies": {
+    "express": "^4.16.3",
+    "reflect-metadata": "^0.1.13"
+  }
+}
