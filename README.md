@@ -20,3 +20,8 @@
 
 - Via Node:
   - `node ./dist/appjs`: Launches the app.
+
+## Some demos:
+![alt text](https://github.com/Frenzoid/SteamBot/blob/master/githubassets/Screenshot_1.png)
+![alt text](https://github.com/Frenzoid/SteamBot/blob/master/githubassets/Screenshot_2.png)
+![alt text](https://github.com/Frenzoid/SteamBot/blob/master/githubassets/Screenshot_3.png)
