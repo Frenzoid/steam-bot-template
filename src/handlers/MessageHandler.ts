@@ -5,13 +5,10 @@ import { Message } from "../models/Message";
 import { User } from "../models/User";
 
 export class MessageHandler {
-  public static msgcount: number[] = [];
 
   public static async processMessage(message: string, nickname: string, steamID: any, client: SteamUser) {
-    // Pre-prepare response.
-    if (!this.msgcount[steamID.getSteam3RenderedID()]) { this.msgcount[steamID] = 0; }
+    // Pre-prepare the response.
     let response: string;
-    this.msgcount[steamID.getSteam3RenderedID()]++;
 
     // Start of sectioning and Preparing responses.
     if (message.toLowerCase().startsWith("im ")) {
@@ -19,6 +16,7 @@ export class MessageHandler {
     }
 
     // ---------------------DATABASE MANAGERING----------------
+    // -------- Saves each message recived.
     // Create new message.
     const messageDb = new Message(message);
 
@@ -38,10 +36,13 @@ export class MessageHandler {
       await Config.connection.manager.save(messageDb);
     }
 
-// --------------PROCESS REPLIES---------------------
-    client.chat.sendFriendMessage(steamID, response);
-    console.log("[" + MessageHandler.msgcount[steamID.getSteam3RenderedID()] + "]" + steamID.getSteam3RenderedID() + " <- " + nickname + ": " + message);
-    console.log("[" + MessageHandler.msgcount[steamID.getSteam3RenderedID()] + "]" + steamID.getSteam3RenderedID() + " -> Bot: " + response);
+    // --------------PROCESS MESSAGES---------------------
+    console.log(steamID.getSteam3RenderedID() + " <- " + nickname + ": " + message);
+
+    if (response) {
+      client.chat.sendFriendMessage(steamID, response);
+      console.log(steamID.getSteam3RenderedID() + " -> Pissed Bot: " + response);
+    }
   }
 
 }
