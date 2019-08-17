@@ -1,6 +1,6 @@
-import * as SteamUser from 'steam-user';
-import { LOGIN } from '../config/logins';
-import { MessageHandler } from '../handlers/MessageHandler';
+import * as SteamUser from "steam-user";
+import { LOGIN } from "../config/logins";
+import { MessageHandler } from "../handlers/MessageHandler";
 
 class ClientLoginController {
   public client: SteamUser;
@@ -10,8 +10,8 @@ class ClientLoginController {
     this.client.logOn(LOGIN);
   }
 
-  start() {
-    this.client.on('loggedOn', () => {
+  public start() {
+    this.client.on("loggedOn", () => {
       console.log("Loged in.");
       // Set status and game to play.
       this.client.setPersona(SteamUser.EPersonaState.LookingToPlay);
@@ -24,18 +24,14 @@ class ClientLoginController {
   private load() {
 
     // process messages
-    this.client.on('friendMessage', (steamID, message) => {
+    this.client.on("friendMessage", (steamID, message) => {
       this.client.getPersonas([steamID], (err,  personas) => {
-        let nickname = personas[steamID.getSteamID64()].player_name;
+        const nickname = personas[steamID.getSteamID64()].player_name;
         MessageHandler.processMessage(message, nickname, steamID, this.client);
       });
     });
-    
-    
+
   }
 }
 
 export const SCC = new ClientLoginController();
-
-
-

@@ -1,5 +1,7 @@
 import "reflect-metadata";
-import { getConnectionManager, ConnectionManager, Connection } from 'typeorm';
+import { Connection, ConnectionManager, getConnectionManager } from "typeorm";
+import { Message } from "../models/Message";
+import { User } from "../models/User";
 
 export class Config {
   public static dbName: string = process.env.DBNAME;
@@ -10,12 +12,15 @@ export class Config {
 
   public static connectionManager: ConnectionManager = getConnectionManager();
   public static connection: Connection = Config.connectionManager.create({
-    type: 'postgres',
+    type: "postgres",
     port: Number(Config.dbport),
     host: Config.dbHost,
     username: Config.dbUser,
     password: Config.dbPass,
     database: Config.dbName,
-    entities: ['../models/*.js'],
+    entities: [
+      User,
+      Message,
+    ],
   });
 }
