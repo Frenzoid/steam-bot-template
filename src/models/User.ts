@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import {Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Column} from "typeorm";
 import { Message } from "./Message";
  

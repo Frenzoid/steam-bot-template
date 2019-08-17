@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import {Entity, ManyToOne, PrimaryGeneratedColumn, Column} from "typeorm";
 import {User} from "./User";
 
