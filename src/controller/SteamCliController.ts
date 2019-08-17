@@ -12,7 +12,7 @@ class ClientLoginController {
 
   public start() {
     this.client.on("loggedOn", () => {
-      console.log("Loged in.");
+      console.log("Logged in.");
       // Set status and game to play.
       this.client.setPersona(SteamUser.EPersonaState.LookingToPlay);
       this.client.gamesPlayed(202351);
