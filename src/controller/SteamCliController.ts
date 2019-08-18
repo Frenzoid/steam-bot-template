@@ -1,37 +1,67 @@
 import * as SteamUser from "steam-user";
-import { LOGIN } from "../config/logins";
+import * as SteamCommunity from "steamcommunity";
+import * as SteamTradeManager from "steam-tradeoffer-manager";
+import { Logins } from "../config/logins";
 import { MessageHandler } from "../handlers/MessageHandler";
+import { UserHandler } from "../handlers/UsersHandler";
+import { TradeHandler } from "../handlers/TradeHandler";
 
-class ClientLoginController {
+export class ClientLoginController {
   public client: SteamUser;
-  constructor() {
-    // Login bot.
+  public community: SteamCommunity;
+  public trademanager: SteamTradeManager;
+  public logins: Logins;
+
+  constructor(logins) {
+    // Login bot and setUp the trade manager.
+    this.logins = logins;
     this.client = new SteamUser();
-    this.client.logOn(LOGIN);
+    this.community = new SteamCommunity();
+    this.trademanager = new SteamTradeManager({
+      steam: this.client,
+      community: this.community,
+      language: 'en',
+    });
+    this.client.logOn(this.logins.getLogin());
   }
 
-  public start() {
+  start() {
     this.client.on("loggedOn", () => {
       console.log("Logged in.");
       // Set status and game to play.
       this.client.setPersona(SteamUser.EPersonaState.LookingToPlay);
       this.client.gamesPlayed(202351);
-      this.load();
+      this.loadChatListeners();
+      this.loadTradeListeners();
     });
   }
 
-  // processes events.
-  private load() {
+    // processes events.
+
+  private async loadTradeListeners() {
+    
+    // Porcess trades.
+    this.client.on("webSession", (sessionId, cookies) => {
+      this.trademanager.setCookies(cookies);
+      this.community.setCookies(cookies);
+      this.community.startConfirmationChecker(20000, this.logins.getSecret());
+    });
+
+    this.trademanager.on("newOffer", async (offer) => {
+      const partnername = await UserHandler.getNickname(this.client, offer.partner);
+      console.log("New incoming trade offer detected from " + partnername);
+      TradeHandler.processTrade(offer, this.client, this.community, this.trademanager);
+    });
+
+
+  }
+
+  private async loadChatListeners() {
 
     // process messages
-    this.client.on("friendMessage", (steamID, message) => {
-      this.client.getPersonas([steamID], (err,  personas) => {
-        const nickname = personas[steamID.getSteamID64()].player_name;
-        MessageHandler.processMessage(message, nickname, steamID, this.client);
-      });
+    this.client.on("friendMessage", async (steamID, message) => {
+      const nickname = await UserHandler.getNickname(this.client, steamID);
+      MessageHandler.processMessage(message, nickname, steamID, this.client);
     });
-
   }
 }
-
-export const SCC = new ClientLoginController();

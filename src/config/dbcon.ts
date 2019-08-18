@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { Connection, ConnectionManager, getConnectionManager } from "typeorm";
 import { Message } from "../models/Message";
 import { User } from "../models/User";
+import { Item } from "../models/Item";
 
 export class Config {
   public static dbName: string = process.env.DBNAME;
@@ -21,6 +22,7 @@ export class Config {
     entities: [
       User,
       Message,
+      Item,
     ],
   });
 }

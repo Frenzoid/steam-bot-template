@@ -1,5 +1,5 @@
-import "reflect-metadata";
 import * as SteamUser from "steam-user";
+import getInsult from "insults";
 import { Config } from "../config/dbcon";
 import { Message } from "../models/Message";
 import { User } from "../models/User";
@@ -13,10 +13,20 @@ export class MessageHandler {
     // Start of sectioning and Preparing responses.
     if (message.toLowerCase().startsWith("im ")) {
       response = "Hello " + message.toLowerCase().split("im")[1] + ", im pissed.";
+    } else if (message.toLowerCase().startsWith(">insult")) {
+      response = getInsult();
     }
+
+
+
+
+
+
+    
 
     // ---------------------DATABASE MANAGERING----------------
     // -------- Saves each message recived.
+    
     // Create new message.
     const messageDb = new Message(message);
 
@@ -35,7 +45,7 @@ export class MessageHandler {
       messageDb.user = newUser;
       await Config.connection.manager.save(messageDb);
     }
-
+    
     // --------------PROCESS MESSAGES---------------------
     console.log(steamID.getSteam3RenderedID() + " <- " + nickname + ": " + message);
 

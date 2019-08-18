@@ -4,8 +4,8 @@ import { User } from "./User";
 @Entity()
 export class Message {
     constructor(message) {
-        this.message = message;
-        this.date = new Date(Date.now());
+        this.message = message;             // Message
+        this.date = new Date(Date.now());   // Date sent.
     }
  
     @PrimaryGeneratedColumn()

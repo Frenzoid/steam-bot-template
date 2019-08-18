@@ -1,8 +1,8 @@
-import "reflect-metadata";
 import * as dotenv from "dotenv";
 dotenv.config();
 import { Config } from "./config/dbcon";
-import { SCC } from "./controller/SteamCliController";
+import { login } from  "./config/logins";
+import { ClientLoginController } from "./controller/SteamCliController";
 
 // Connect with the db
 Config.connection.connect().then((result: any) => {
@@ -12,5 +12,8 @@ Config.connection.connect().then((result: any) => {
   console.error(`Error syncing database: ${err}`);
 });
 
-// This will start the bot's chain-load, and also drag up any unhandled errors.
-SCC.start();
+// Star bot.
+login.processLogin().then(() => {
+  const scc = new ClientLoginController(login);
+  scc.start();
+});
