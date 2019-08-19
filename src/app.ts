@@ -17,3 +17,4 @@ login.processLogin().then(() => {
   const scc = new ClientLoginController(login);
   scc.start();
 });
+

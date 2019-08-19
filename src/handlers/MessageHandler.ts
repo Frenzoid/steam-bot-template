@@ -51,7 +51,7 @@ export class MessageHandler {
 
     if (response) {
       client.chat.sendFriendMessage(steamID, response);
-      console.log(steamID.getSteam3RenderedID() + " -> Pissed Bot: " + response);
+      console.log(steamID.getSteam3RenderedID() + " -> Bot: " + response);
     }
   }
 

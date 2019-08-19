@@ -3,7 +3,7 @@ import * as SteamCommunity from "steamcommunity";
 import * as SteamTradeManager from "steam-tradeoffer-manager";
 import { Logins } from "../config/logins";
 import { MessageHandler } from "../handlers/MessageHandler";
-import { UserHandler } from "../handlers/UsersHandler";
+import { SteamComInteractor } from "../utils/SteamCommunityInteractor";
 import { TradeHandler } from "../handlers/TradeHandler";
 
 export class ClientLoginController {
@@ -36,8 +36,8 @@ export class ClientLoginController {
     });
   }
 
-    // processes events.
-
+  
+  // processes events.
   private async loadTradeListeners() {
     
     // Porcess trades.
@@ -48,7 +48,7 @@ export class ClientLoginController {
     });
 
     this.trademanager.on("newOffer", async (offer) => {
-      const partnername = await UserHandler.getNickname(this.client, offer.partner);
+      const partnername = await SteamComInteractor.getNicknameFromUserID(this.community, offer.partner);
       console.log("New incoming trade offer detected from " + partnername);
       TradeHandler.processTrade(offer, this.client, this.community, this.trademanager);
     });
@@ -60,7 +60,7 @@ export class ClientLoginController {
 
     // process messages
     this.client.on("friendMessage", async (steamID, message) => {
-      const nickname = await UserHandler.getNickname(this.client, steamID);
+      const nickname = await SteamComInteractor.getNicknameFromUserID(this.community, steamID);
       MessageHandler.processMessage(message, nickname, steamID, this.client);
     });
   }

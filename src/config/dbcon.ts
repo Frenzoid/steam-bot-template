@@ -3,6 +3,7 @@ import { Connection, ConnectionManager, getConnectionManager } from "typeorm";
 import { Message } from "../models/Message";
 import { User } from "../models/User";
 import { Item } from "../models/Item";
+import { Trade } from "../models/Trade";
 
 export class Config {
   public static dbName: string = process.env.DBNAME;
@@ -23,6 +24,7 @@ export class Config {
       User,
       Message,
       Item,
+      Trade,
     ],
   });
 }

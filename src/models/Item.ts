@@ -1,5 +1,5 @@
-import { Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, Column } from "typeorm";
-import { User } from "./User";
+import { Entity, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Trade } from "./Trade";
 
 @Entity()
 export class Item {
@@ -22,10 +22,16 @@ export class Item {
     @Column()
     invId: string;
 
+    @Column()
+    InInventory: boolean;
+    
     @Column({type: "timestamp"})
     date: Date;
 
-    @ManyToOne(type => User, user => user.messages)
-    user: User;
+    @ManyToMany(type => Trade, trade => trade.itemDelivered)
+    tradeDelivered: Trade[];
+
+    @ManyToMany(type => Trade, trade => trade.itemReceived)
+    tradeReceived: Trade[];
  
 }
