@@ -1,6 +1,7 @@
 import { Entity, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn, Column } from "typeorm";
 import { Item } from "./Item";
 import { Config } from "../config/dbcon";
+import { User } from "./User";
 
 export enum Status {
   PENDING,
@@ -46,10 +47,7 @@ export class Trade {
   tradeId: number;
 
   @Column()
-  partner: string;
-
-  @Column()
-  partnerName: string;
+  partner: User;
 
   @Column()
   status: Status;
