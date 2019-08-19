@@ -1,4 +1,4 @@
-import { Entity, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Item } from "./Item";
 import { Config } from "../config/dbcon";
 import { User } from "./User";
@@ -46,7 +46,7 @@ export class Trade {
   @PrimaryColumn()
   tradeId: number;
 
-  @Column()
+  @ManyToOne(type => User, user => user.trade)
   partner: User;
 
   @Column()

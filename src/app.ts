@@ -12,9 +12,13 @@ Config.connection.connect().then((result: any) => {
   console.error(`Error syncing database: ${err}`);
 });
 
-// Star bot.
-login.processLogin().then(() => {
-  const scc = new ClientLoginController(login);
-  scc.start();
-});
-
+// Start bot.
+(async () => {
+  try {
+    await login.processLogin();
+    const scc = new ClientLoginController(login);
+    scc.start();
+  } catch (err) {
+    console.error(err);
+  }
+})();

@@ -2,7 +2,7 @@ import * as SteamUser from "steam-user";
 import * as SteamCommunity from "steamcommunity";
 import * as SteamTradeManager from "steam-tradeoffer-manager";
 import { Logins } from "../config/logins";
-import { MessageHandler } from "../handlers/MessageHandler";
+import { messageHandler } from "../handlers/MessageHandler";
 import { SteamComInteractor } from "../utils/SteamCommunityInteractor";
 import { TradeHandler } from "../handlers/TradeHandler";
 
@@ -61,7 +61,7 @@ export class ClientLoginController {
     // process messages
     this.client.on("friendMessage", async (steamID, message) => {
       const nickname = await SteamComInteractor.getNicknameFromUserID(this.community, steamID);
-      MessageHandler.processMessage(message, nickname, steamID, this.client);
+      messageHandler.processMessage(message, nickname, steamID, this.client, this.community);
     });
   }
 }
