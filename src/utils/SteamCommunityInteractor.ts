@@ -22,4 +22,14 @@ export class SteamComInteractor {
       });
     })
   };
+
+  public static getSteamGroup(community: SteamCommunity, groupID: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      community.getSteamGroup(groupID, (err, group) => {
+        if (err) reject(err);
+        
+        resolve(group)
+      });
+    })
+  };
 }

@@ -1,6 +1,3 @@
-import * as SteamUser from "steam-user";
-import * as SteamCommunity from "steamcommunity";
-import * as SteamTradeManager from "steam-tradeoffer-manager";
 import { SteamComInteractor } from "../utils/SteamCommunityInteractor";
 import getInsult from "insults";
 import * as moment from 'moment';
@@ -9,12 +6,11 @@ class ChatCommandsProcessor {
   public async insult() {
     const response = await getInsult();
     return response;
-
   }
 
   public async command1(args: string[]) {
     console.log(args);
-    let response = "You executed the first command. Your arguments are:";
+    let response = "You executed the template command. Your arguments are:";
 
     return  `${response} "${args.toString()}"`;
   }
@@ -37,18 +33,20 @@ class ChatCommandsProcessor {
 
     if (!user) return "Error loading user's data.";
 
+    const group = await SteamComInteractor.getSteamGroup(community, user.primaryGroup);
+
     userJson = {
-      name: user.name.toString(),
-      onlineStatus: user.onlineState.toString(),
-      stateMessage: user.stateMessage.toString(),
-      vacBanned: user.vacBanned.toString(),
-      tradeBanStatus: user.tradeBanState.toString(),
-      isLimitedAcc: user.isLimitedAccount.toString(),
+      name: user.name,
+      onlineStatus: user.onlineState,
+      stateMessage: user.stateMessage,
+      vacBanned: user.vacBanned,
+      tradeBanStatus: user.tradeBanState,
+      isLimitedAccout: user.isLimitedAccount,
       memberSince: moment(user.memberSince).format("MMM Do YY"),
-      primaryGroup: user.primaryGroup.toString(),
+      primaryGroup: group.name,
     };
 
-    const response = `/code ${JSON.stringify(userJson)}`;
+    const response = `${JSON.stringify(userJson)}`;
     return response;
   }
 
