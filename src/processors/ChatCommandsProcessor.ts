@@ -10,9 +10,12 @@ class ChatCommandsProcessor {
 
   public async command1(args: string[]) {
     console.log(args);
-    let response = "You executed the template command. Your arguments are:";
-
-    return  `${response} "${args.toString()}"`;
+    const response = "You executed the template command. Your arguments are:";
+    let messages = [];
+    messages.push(response);
+    messages = messages.concat(args);
+    
+    return  messages;
   }
 
   public async getUserInfo(args: string[], community, userID) {

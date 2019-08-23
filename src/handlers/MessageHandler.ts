@@ -97,13 +97,20 @@ class MessageHandler {
 
     client.chat.sendFriendMessage(steamUserID, message).then(() => {
       console.log(steamUserID.getSteam3RenderedID() + " -> Bot: " + message);
+      Promise.resolve(message);
     });
   }
 
+  private async sentArrayMessage(messages: string[], client: SteamUser, steamUserID, format = 0) {
+    for(const key in messages) {
+      await this.delay(1000).then(_ => {
+        this.sendMessage(messages[key], client, steamUserID, format);
+      });
+    }
+  }
 
-  private sentArrayMessage(messages: string[], client: SteamUser, steamUserID, format = 0) {
-    setTimeout(() => {},1000);
-    // TO DO
+  private delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   
