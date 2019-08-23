@@ -11,9 +11,7 @@ class ChatCommandsProcessor {
   public async command1(args: string[]) {
     console.log(args);
     const response = "You executed the template command. Your arguments are:";
-    let messages = [];
-    messages.push(response);
-    messages = messages.concat(args);
+    let messages = [response, ...args];
     
     return  messages;
   }
