@@ -19,7 +19,7 @@
   - `npm run dev`: Starts development mode, this will auto-build the dist folder and launches the app each time it detected a change.
 
 - Via Node:
-  - `node ./dist/appjs`: Launches the app.
+  - `node ./dist/app.js`: Launches the app.
 
 ## Some demos:
 - ![alt text](https://github.com/Frenzoid/SteamBot/blob/master/githubassets/Screenshot_3.png)
